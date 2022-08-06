@@ -20,6 +20,7 @@ internal partial class Grammar
         rules = new List<TokenRule>()
         {
             new TokenRule(TokenKind.AndOperand, "^and"),
+            new TokenRule(TokenKind.OrOperand, "^or"),
             new TokenRule(TokenKind.OpenParenthesis, "\\("),
             new TokenRule(TokenKind.CloseParenthesis, "\\)"),
             new TokenRule(TokenKind.StringValue, "'([^']*)'"),
