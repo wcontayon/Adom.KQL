@@ -19,6 +19,16 @@ internal class Token
         _wordLength = word.Length;
     }
 
+    public Token(TokenKind kind, ReadOnlySpan<char> word, int position)
+    {
+        ArgumentNullException.ThrowIfNull(kind, nameof(kind));
+
+        _kind = kind;
+        _text = word.ToString();
+        _position = position;
+        _wordLength = word.Length;
+    }
+
     public TokenKind Kind => _kind;
 
     public string? Text => _text;
@@ -26,14 +36,4 @@ internal class Token
     public int Position => _position;
 
     public int WordLength => _wordLength;
-
-    /// <summary>
-    /// Return a <see cref="Token"/> that matches the input
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public static Token MatchToken(Span<char> input)
-    {
-
-    }
 }

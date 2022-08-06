@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace KqlToLinq.Syntax
 {
+    /// <summary>
+    /// Represents a token type
+    /// </summary>
     internal enum TokenKind
     {
         None,
@@ -22,7 +20,10 @@ namespace KqlToLinq.Syntax
         QueryColumnName,
         OrOperand,
         AndOperand,
-        QueryTypeValue,
+        StringValue,
+        NumberValue,
+        DateTimeValue,
+        BoolValue,
         WhiteSpace,
         StartToken,
     }
