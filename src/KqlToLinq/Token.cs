@@ -1,7 +1,9 @@
 ﻿using KqlToLinq.Syntax;
+using System.Diagnostics;
 
 namespace KqlToLinq;
 
+[DebuggerDisplay("TokenKind = {Kind}, Text = {Text}")]
 internal class Token
 {
     private readonly TokenKind _kind;

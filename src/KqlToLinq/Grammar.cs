@@ -21,21 +21,24 @@ internal partial class Grammar
         {
             new TokenRule(TokenKind.AndOperand, "^and"),
             new TokenRule(TokenKind.OrOperand, "^or"),
-            new TokenRule(TokenKind.OpenParenthesis, "\\("),
-            new TokenRule(TokenKind.CloseParenthesis, "\\)"),
+            new TokenRule(TokenKind.OpenParenthesis, @"\("),
+            new TokenRule(TokenKind.CloseParenthesis, @"\)"),
             new TokenRule(TokenKind.StringValue, "'([^']*)'"),
-            new TokenRule(TokenKind.NumberValue, "\\d+"),
-            new TokenRule(TokenKind.DateTimeValue, "'(\\d{4})-(\\d{2})-(\\d{2})( (\\d{2}):(\\d{2}):(\\d{2}))?'"),
+            new TokenRule(TokenKind.NumberValue, "^-?(?:(?:0|[1-9][0-9]*)(?:,[0-9]+)?|[1-9][0-9]{1,2}(?:,[0-9]{3})+)$"),
+            new TokenRule(TokenKind.DateTimeValue, @"^(19|20)\d\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$"),
             new TokenRule(TokenKind.EqualOperator, "="),
-            new TokenRule(TokenKind.NotEqualOperator, "!="),
             new TokenRule(TokenKind.GreaterThanOrEqualOperator, ">="),
             new TokenRule(TokenKind.GreatherThanOperator, ">"),
             new TokenRule(TokenKind.LessThanOrEqualOperator, "<="),
             new TokenRule(TokenKind.LessThanOperator, "<"),
             new TokenRule(TokenKind.NotEqualOperator, "!="),
-            new TokenRule(TokenKind.QueryColumnName, "/^\\w+/"),
-            new TokenRule(TokenKind.WhiteSpace, "\\s+")
+            new TokenRule(TokenKind.QueryColumnName, "(.*?)[a-zA-Z0-9]*"),
+            new TokenRule(TokenKind.WhiteSpace, @"\s+")
         };
+
+        
+
+Source: https://prograide.com/pregunta/72878/le-lexer-du-pauvre-pour-c
 
         _lexer = new Lexer(rules);
     }
@@ -73,19 +76,38 @@ internal partial class Grammar
 
         /// <summary>
         /// Searches all occurrences of the current <see cref="TokenKind"/> inside 
-        /// the <see cref="ReadOnlySpan{char}"/> input
+        /// the <see cref="string"/> input
         /// </summary>
         /// <param name="input"></param>
         /// <returns><see cref="IEnumerable{Token}"/></returns>
-        public IEnumerable<Token> IsMatch(ReadOnlySpan<char> input)
+        public IEnumerable<Token> IsMatch(string input)
         {
-            MatchCollection matches = Regex.Matches(input.ToString(), _pattern, RegexOptions.CultureInvariant);
-            if (matches.Count > 0)
+            MatchCollection matches = Regex.Matches(input, _pattern);
+            for (int i = 0; i < matches.Count; i++)
             {
-                return matches.Select(match => new Token(Token, match.ValueSpan, match.Index));
+                yield return new Token(Token, matches[i].ValueSpan, matches[i].Index);
+            }
+        }
+
+        /// <summary>
+        /// Search the first occurrence of the current <see cref="TokenKind"/>
+        /// inside the <see cref="ReadOnlySpan{char}"/> int
+        /// </summary>
+        /// <param name="input"><see cref="ReadOnlySpan{char}"/></param>
+        /// <param name="token"><see cref="KqlToLinq.Token?"/>out param Token</param>
+        /// <returns><see cref="(bool IsMatch, KqlToLinq.Token? Token)"/></returns>
+        public bool TryMatch(string input, out Token? token)
+        {
+            var match = Regex.Match(input, _pattern);
+            if (match.Success)
+            {
+                token = new Token(Token, match.ValueSpan, match.Index);
+                return true;
             }
 
-            return Enumerable.Empty<Token>();
+            token = null;
+
+            return false;
         }
     }
 }

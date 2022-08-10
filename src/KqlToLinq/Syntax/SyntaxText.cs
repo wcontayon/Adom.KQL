@@ -26,4 +26,8 @@ internal readonly struct SyntaxText
     }
 
     public string Text => _text;
+
+    public int Length => _length;
+
+    public int StartPosition => _startPosition;
 }
