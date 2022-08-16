@@ -20,7 +20,7 @@ internal partial class Grammar
         private readonly TokenRule _constValueStringTokenRule;
         private readonly TokenRule _constValueDateTimeTokenRule;
         private readonly TokenRule _colNameTokenRules;
-        private readonly char[] _specialChararters = new char[] { '*', ' ', ',', '-', '/', '\\', '_', '^', '\'', '~', ':', ';' };
+        private readonly char[] _specialChararters = new char[] { '*', ' ', ',', '-', '/', '\\', '_', '^', '\'', '~', ':', ';', '(', ')', '{', '}', '#' };
         private readonly char[] _invalidColumnChars = new char[] { '-', '+', '\"' };
 
         // comparison token rule
@@ -100,7 +100,8 @@ internal partial class Grammar
                 }
 
                 // If the char or string is an comparison operator
-                if (IsAnComparisonOperator(input.Slice(index, 2), index, out token))
+                // We check if we are not on the last character
+                if (IsAnComparisonOperator(input.Slice(index, input.Length - (index + 1) >= 2 ? 2 : (input.Length - (index + 1))), index, out token))
                 {
                     tokens.Enqueue(token!, index);
                     IncrementIndex(token!.Text!.Length, ref index);
@@ -289,9 +290,10 @@ internal partial class Grammar
             if (firstChar == '>' || firstChar == '!' || firstChar == '<')
             {
                 // Let's see if the second char is '='
-                if (_lessThanOrEqualTokenRule.TryMatch(input.ToString(), out token) ||
-                    _greaterThanOrEqualTokenRule.TryMatch(input.ToString(), out token) ||
-                    _notEqualTokenRule.TryMatch(input.ToString(), out token))
+                var possibleWord = input.Slice(0, 2);
+                if (_lessThanOrEqualTokenRule.TryMatch(possibleWord.ToString(), out token) ||
+                    _greaterThanOrEqualTokenRule.TryMatch(possibleWord.ToString(), out token) ||
+                    _notEqualTokenRule.TryMatch(possibleWord.ToString(), out token))
                 {
                     return true;
                 }
