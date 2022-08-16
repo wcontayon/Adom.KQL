@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Xunit;
 
 namespace KqlToLinq;
@@ -54,4 +56,94 @@ public class GrammarLexerTest
 		// Assert
 		Assert.Equal(nbToken, tokensQueue.Count);
     }
+
+	public class LexerDataTest
+    {
+        public string? InputText { get; set; }
+
+        public List<(Token, int)>? Tokens { get; set; }
+    }
+
+	internal class TokensDataGenerator : IEnumerable<object[]>
+    {
+		public static IEnumerable<object[]> GenerateTokens()
+        {
+			yield return new object[]
+			{
+				new LexerDataTest()
+				{
+					InputText = "col = 'value' and dateCol = '2022-08-01'",
+					Tokens = new List<(Token, int)>
+					{
+						ValueTuple.Create(new Token(Syntax.TokenKind.QueryColumnName, "col".AsSpan(), 0), 0),
+						ValueTuple.Create(new Token(Syntax.TokenKind.EqualOperator, "=".AsSpan(), 4), 4),
+						ValueTuple.Create(new Token(Syntax.TokenKind.StringValue, "value".AsSpan(), 7), 7),
+						ValueTuple.Create(new Token(Syntax.TokenKind.AndOperand, "and".AsSpan(), 14), 14),
+						ValueTuple.Create(new Token(Syntax.TokenKind.QueryColumnName, "dateCol".AsSpan(), 18), 18),
+						ValueTuple.Create(new Token(Syntax.TokenKind.EqualOperator, "=".AsSpan(), 26), 26),
+						ValueTuple.Create(new Token(Syntax.TokenKind.DateTimeValue, "2022-08-01".AsSpan(), 29), 29)
+					}
+				}
+			};
+
+			yield return new object[]
+			{
+				new LexerDataTest()
+				{
+					InputText = "col = 'value'",
+					Tokens = new List<(Token, int)>
+					{
+						ValueTuple.Create(new Token(Syntax.TokenKind.QueryColumnName, "col".AsSpan(), 0), 0),
+						ValueTuple.Create(new Token(Syntax.TokenKind.EqualOperator, "=".AsSpan(), 4), 4),
+						ValueTuple.Create(new Token(Syntax.TokenKind.StringValue, "value".AsSpan(), 7), 7),
+					}
+				}
+			};
+
+			yield return new object[]
+			{
+				new LexerDataTest()
+				{
+					InputText = "colNumb > 37 or colNumb <= 50",
+					Tokens = new List<(Token, int)>
+					{
+						ValueTuple.Create(new Token(Syntax.TokenKind.QueryColumnName, "colNumb".AsSpan(), 0), 0),
+						ValueTuple.Create(new Token(Syntax.TokenKind.GreatherThanOperator, ">".AsSpan(), 8), 8),
+						ValueTuple.Create(new Token(Syntax.TokenKind.NumberValue, "37".AsSpan(), 10), 10),
+						ValueTuple.Create(new Token(Syntax.TokenKind.OrOperand, "or".AsSpan(), 13), 13),
+						ValueTuple.Create(new Token(Syntax.TokenKind.QueryColumnName, "colNumb".AsSpan(), 16), 16),
+						ValueTuple.Create(new Token(Syntax.TokenKind.LessThanOrEqualOperator, "<=".AsSpan(), 24), 24),
+						ValueTuple.Create(new Token(Syntax.TokenKind.DateTimeValue, "50".AsSpan(), 27), 27)
+					}
+				}
+			};
+        }
+
+		public IEnumerator<object[]> GetEnumerator() => GenerateTokens().GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GenerateTokens().GetEnumerator();
+    }
+
+    [Trait("Category", "Lexer")]
+	[Theory(DisplayName = "Grammar/Lexer should tokenize correct tokens")]
+	[MemberData(nameof(TokensDataGenerator.GenerateTokens), MemberType = typeof(TokensDataGenerator))]
+    public void GrammarLexerShouldTokenizeCorrectTokens(LexerDataTest inputLexer)
+    {
+		// Act
+		var grammar = Grammar.Instance();
+
+		// Act
+		var tokensQueue = grammar._lexer.Tokenize(inputLexer.InputText);
+
+		// Assert
+		Assert.NotNull(tokensQueue);
+		Assert.Equal(inputLexer.Tokens!.Count, tokensQueue.Count);
+		for (var i = 0; i < tokensQueue.Count; i++)
+        {
+			var token = tokensQueue.Dequeue();
+			var expectedToken = inputLexer!.Tokens![i];
+			Assert.True(token.Equals(expectedToken.Item1));
+        }
+    }
 }
+

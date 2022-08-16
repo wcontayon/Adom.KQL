@@ -109,6 +109,28 @@ Source: https://prograide.com/pregunta/72878/le-lexer-du-pauvre-pour-c
 
             return false;
         }
+
+        /// <summary>
+        /// Search the first occurrence of the current <see cref="TokenKind"/>
+        /// inside the <see cref="ReadOnlySpan{char}"/> int
+        /// </summary>
+        /// <param name="input"><see cref="ReadOnlySpan{char}"/></param>
+        /// <param name="startIndex">The start index where the word has been found</param>
+        /// <param name="token"><see cref="KqlToLinq.Token?"/>out param Token</param>
+        /// <returns><see cref="(bool IsMatch, KqlToLinq.Token? Token)"/></returns>
+        public bool TryMatch(string input, int startIndex, out Token? token)
+        {
+            var match = Regex.Match(input, _pattern);
+            if (match.Success)
+            {
+                token = new Token(Token, match.ValueSpan, startIndex);
+                return true;
+            }
+
+            token = null;
+
+            return false;
+        }
     }
 }
 

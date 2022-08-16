@@ -1,10 +1,12 @@
 ﻿using KqlToLinq.Syntax;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("KqlToLinq.Tests")]
 namespace KqlToLinq;
 
 [DebuggerDisplay("TokenKind = {Kind}, Text = {Text}")]
-internal class Token
+public class Token : IEquatable<Token>
 {
     private readonly TokenKind _kind;
     private readonly string? _text;
@@ -38,4 +40,10 @@ internal class Token
     public int Position => _position;
 
     public int WordLength => _wordLength;
+
+    public bool Equals(Token? other) => other != null && 
+                                        other.Kind == _kind &&
+                                        other.Text == _text &&
+                                        other.Position == _position &&
+                                        other.WordLength == _wordLength;
 }

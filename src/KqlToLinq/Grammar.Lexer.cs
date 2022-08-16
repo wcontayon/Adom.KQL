@@ -148,9 +148,9 @@ internal partial class Grammar
                         word = input.Slice(index + 1, MoveToNextQuote(input, index + 1)).ToString();
 
                         // last check: Is it a datetime value 'yyyy-mm-dd'
-                        if (_constValueDateTimeTokenRule.TryMatch(word, out token))
+                        if (_constValueDateTimeTokenRule.TryMatch(word, index, out token))
                         {
-                            tokens.Enqueue(token!, token!.Position);
+                            tokens.Enqueue(token!, index);
 
                             // Increment the current index => (index+1 + (lenght + 1))
                             IncrementIndex(word.Length + 2, ref index);
@@ -171,8 +171,8 @@ internal partial class Grammar
                         word = input.Slice(index, MoveToNextSpecialCharacter(input, index)).ToString();
 
                         // Is it an operand key (and / or)
-                        if (_andTokenRule.TryMatch(word, out token) ||
-                            _orTokenRule.TryMatch(word, out token))
+                        if (_andTokenRule.TryMatch(word, index, out token) ||
+                            _orTokenRule.TryMatch(word, index, out token))
                         {
                             tokens.Enqueue(token!, index);
 
@@ -181,7 +181,7 @@ internal partial class Grammar
                         }
 
                         // Is it a number const value
-                        if (_constValueNumberTokenRule.TryMatch(word, out token))
+                        if (_constValueNumberTokenRule.TryMatch(word, index, out token))
                         {
                             tokens.Enqueue(token!, index);
 
@@ -201,12 +201,12 @@ internal partial class Grammar
 
                         // Is it a column name
                         // we validate the column name
-                        if (_colNameTokenRules.TryMatch(word, out token))
+                        if (_colNameTokenRules.TryMatch(word, index, out token))
                         {
                             // We should not have a invalid charater in the column name
                             if (word.Any(c => _invalidColumnChars.Contains(c)))
                             {
-                                ThrowHelpers.InvalidColumnNameException(token!.Text!, token!.Position);
+                                ThrowHelpers.InvalidColumnNameException(token!.Text!, index);
                             }
 
                             tokens.Enqueue(token!, index);
@@ -291,19 +291,19 @@ internal partial class Grammar
             {
                 // Let's see if the second char is '='
                 var possibleWord = input.Slice(0, 2);
-                if (_lessThanOrEqualTokenRule.TryMatch(possibleWord.ToString(), out token) ||
-                    _greaterThanOrEqualTokenRule.TryMatch(possibleWord.ToString(), out token) ||
-                    _notEqualTokenRule.TryMatch(possibleWord.ToString(), out token))
+                if (_lessThanOrEqualTokenRule.TryMatch(possibleWord.ToString(), startIndex, out token) ||
+                    _greaterThanOrEqualTokenRule.TryMatch(possibleWord.ToString(), startIndex, out token) ||
+                    _notEqualTokenRule.TryMatch(possibleWord.ToString(), startIndex, out token))
                 {
                     return true;
                 }
-                else if (_lessThanTokenRule.TryMatch(input.ToString(), out token) ||
-                         _greatherThanTokenRule.TryMatch(input.ToString(), out token))
+                else if (_lessThanTokenRule.TryMatch(input.ToString(), startIndex, out token) ||
+                         _greatherThanTokenRule.TryMatch(input.ToString(), startIndex, out token))
                 {
                     return true;
                 }
             }
-            else if (_equalsTokenRule.TryMatch(input.ToString(), out token))
+            else if (_equalsTokenRule.TryMatch(input.ToString(), startIndex, out token))
             {
                 return true;
             }

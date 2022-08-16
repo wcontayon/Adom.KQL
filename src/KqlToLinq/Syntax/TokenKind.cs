@@ -4,7 +4,7 @@ namespace KqlToLinq.Syntax
     /// <summary>
     /// Represents a token type
     /// </summary>
-    internal enum TokenKind
+    public enum TokenKind
     {
         None,
         OpenParenthesis,
