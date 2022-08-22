@@ -17,7 +17,6 @@ internal partial class Grammar
         private readonly IReadOnlyCollection<TokenRule> _operatorTokenRules;
         private readonly TokenRule _andTokenRule, _orTokenRule;
         private readonly TokenRule _constValueNumberTokenRule;
-        private readonly TokenRule _constValueStringTokenRule;
         private readonly TokenRule _constValueDateTimeTokenRule;
         private readonly TokenRule _colNameTokenRules;
         private readonly char[] _specialChararters = new char[] { '*', ' ', ',', '-', '/', '\\', '_', '^', '\'', '~', ':', ';', '(', ')', '{', '}', '#' };
@@ -38,7 +37,6 @@ internal partial class Grammar
             // define specifics token rules, used in the tokenizer
             _whiteSpaceTokeRule = _rules.First(r => r.Token == Syntax.TokenKind.WhiteSpace);
             _colNameTokenRules = _rules.First(r => r.Token == Syntax.TokenKind.QueryColumnName);
-            _constValueStringTokenRule = _rules.First(r => r.Token == Syntax.TokenKind.StringValue);
             _constValueNumberTokenRule = _rules.First(r => r.Token == Syntax.TokenKind.NumberValue);
             _constValueDateTimeTokenRule = _rules.First(r => r.Token==Syntax.TokenKind.DateTimeValue);
             _singleCharTokenRules = _rules.Where(r => r.Token == Syntax.TokenKind.OpenParenthesis ||
@@ -124,6 +122,14 @@ internal partial class Grammar
                         else if (token.Kind == Syntax.TokenKind.CloseParenthesis)
                         {
                             countParenthesis--;
+                            // if the stack parenthesis is empty, it means that whe have a 
+                            // '(' without it concerned ')'
+                            if (stackParenthesis.Count == 0)
+                            {
+                                // Throw directly the exception
+                                ThrowHelpers.ClosedParenthesisWithoutAnOpendException(token!.Text!, index);
+                            }
+
                             stackParenthesis.Pop();
                         }
 
@@ -265,17 +271,16 @@ internal partial class Grammar
             }
             
 
-            // check that we do not have a bad input (parenthesis are correctly closde)
-            if (countParenthesis > 0)
+            // check that we do not have a bad input (parenthesis are correctly closed)
+            if (countParenthesis != 0)
             {
-                // Throw the exception with the first OpenParenthesis found
+                // Throw the exception with the first OpenParenthesis not closed found
                 var openParenthesis = stackParenthesis.Pop();
                 ThrowHelpers.OpenParenthesisNotClosedException(openParenthesis.Text!, openParenthesis.Position);
             }
 
             return tokens;
         }
-
 
         private bool IsAnComparisonOperator(ReadOnlySpan<char> input, int startIndex, out Token? token)
         {

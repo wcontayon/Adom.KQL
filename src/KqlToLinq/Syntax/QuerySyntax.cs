@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KqlToLinq.Syntax;
 
-internal class QuerySyntax : Syntax
+internal class QuerySyntax : Syntax, ISyntaxNode
 {
     private readonly SyntaxKind _kind;
     // the left token represents the property column name
@@ -24,6 +25,38 @@ internal class QuerySyntax : Syntax
     {
         _kind = kind;
         _text = new SyntaxText(tokens);
+        
+        // tokens lenght should be 3 (left operator right)
+        for (var i = 0; i < tokens.Length; i++)
+        {
+            var token = tokens[i];
+            
+            // Left token
+            if (token.Kind.IsLeftToken())
+            {
+                _leftToken = token;
+                continue;
+            }
+
+            // Right token
+            if (token.Kind.IsRightToken())
+            {
+                _rightToken = token;
+                continue;
+            }
+
+            // Operator
+            if (token.Kind.IsOperator())
+            {
+                _operator = token;
+                continue;
+            }
+        }
+
+        if (_leftToken == null || _rightToken == null || _operator == null)
+        {
+            ThrowHelpers.IncorrectQuerySyntax(_text.Text);
+        }
     }
 
     /// <inheritdoc />
@@ -38,4 +71,6 @@ internal class QuerySyntax : Syntax
 
     /// <inheritdoc />
     public override Token[] Tokens => new Token[3] { _leftToken, _operator, _rightToken };
+
+    public Expression Accept(INodeVisitor visitor) => visitor.VisiteQuerySyntax(this);
 }

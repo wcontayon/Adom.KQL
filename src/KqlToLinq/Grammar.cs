@@ -14,6 +14,7 @@ internal partial class Grammar
     // For test
     internal static Grammar? _grammar;
     internal readonly Lexer _lexer;
+    internal readonly Parser _parser;
 
     public Grammar()
     {
@@ -38,9 +39,10 @@ internal partial class Grammar
 
         
 
-Source: https://prograide.com/pregunta/72878/le-lexer-du-pauvre-pour-c
+        //Source: https://prograide.com/pregunta/72878/le-lexer-du-pauvre-pour-c
 
         _lexer = new Lexer(rules);
+        _parser = new Parser();
     }
 
     public static Grammar Instance()
