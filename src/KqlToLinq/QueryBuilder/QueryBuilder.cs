@@ -1,7 +1,10 @@
 ﻿using KqlToLinq.Syntax;
+using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
+[assembly:InternalsVisibleTo("KqlToLinq.Tests")]
 namespace KqlToLinq.QueryBuilder;
 
 internal class QueryBuilder : IQueryExpressionBuilder
@@ -16,6 +19,12 @@ internal class QueryBuilder : IQueryExpressionBuilder
         _properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
     }
 
+    public QueryBuilder(Type type, string parameterName)
+    {
+        _paramExpression = Expression.Parameter(type, parameterName);
+        _properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
+    }
+
     /// <inheritdoc />
     public Expression EvaluateBinaryOperand(QueryOperandKind operandKind, Expression left, Expression right)
     {
@@ -24,8 +33,8 @@ internal class QueryBuilder : IQueryExpressionBuilder
 
         return operandKind switch
         {
-            QueryOperandKind.And => Expression.And(left, right),
-            _ => Expression.Or(left, right),
+            QueryOperandKind.And => Expression.AndAlso(left, right),
+            _ => Expression.OrElse(left, right),
         };
     }
 
@@ -42,7 +51,7 @@ internal class QueryBuilder : IQueryExpressionBuilder
         MemberExpression memberExpression = Expression.Property(_paramExpression, syntax.LeftToken.Text!);
         ConstantExpression constantExpression = syntax.RightToken.Kind switch
         {
-            TokenKind.DateTimeValue => Expression.Constant(DateTime.ParseExact(syntax.RightToken.Text!, "yyyy-MM-dd", null), typeof(DateTime)),
+            TokenKind.DateTimeValue => Expression.Constant(DateTime.ParseExact(syntax.RightToken.Text!, "yyyy-MM-dd", CultureInfo.InvariantCulture), typeof(DateTime)),
             TokenKind.BoolValue => Expression.Constant(bool.Parse(syntax.RightToken.Text!), typeof(bool)),
             TokenKind.NumberValue => Expression.Constant(Convert.ChangeType(syntax.RightToken.Text!, property.PropertyType)),
             TokenKind.StringValue => Expression.Constant(syntax.RightToken?.Text!, typeof(string)),

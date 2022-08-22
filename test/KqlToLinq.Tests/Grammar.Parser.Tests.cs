@@ -1,18 +1,22 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using KqlToLinq.QueryBuilder;
 using KqlToLinq.Syntax;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace KqlToLinq.Tests;
 
 public class GrammarParserTests
 {
-	[Trait("Category", "Parser")]
+    private readonly ITestOutputHelper _output;
+
+    public GrammarParserTests(ITestOutputHelper output) => _output = output;
+
+    [Trait("Category", "Parser")]
 	[Fact(DisplayName = "Grammar/Parser should be unique")]
 	public void GrammerParserShouldBeUnique()
     {
@@ -27,7 +31,7 @@ public class GrammarParserTests
 		Assert.True(grammar2._parser == grammar1._parser);
 	}
 
-	class TestClass
+	public class TestClass
     {
         public string? StringField { get; set; }
 
@@ -57,10 +61,25 @@ public class GrammarParserTests
         }
     }
 
-    // [Trait("Category", "Parser")]
-    // [Theory(DisplayName = "Grammar/Parser should parse and evaluate correctly an input")]
-    // public void GrammarParserShouldEvaluateCorrectly()
-    // {
+    [Trait("Category", "Parser")]
+    [Theory(DisplayName = "Grammar/Parser should parse and evaluate correctly an input")]
+    [InlineData("(StringField = 'value')", 1, 0)]
+    [InlineData("StringField = 'value' or StringField = 'value2'", 2, 1)]
+    [InlineData("((StringField = 'value' or StringField = 'value2') and NumberField = 10 and DateTimeField = '2022-08-01')", 4, 3)]
+    [InlineData("((StringField = 'value' or StringField = 'value2') and NumberField = 10) and DateTimeField = '2022-08-01'", 4, 3)]
+    [InlineData("StringField = 'value' or StringField = 'value2' and NumberField = 10 and (DateTimeField = '2022-08-01' or DateOnlyField = '2022-08-01')", 5, 4)]
+    public void GrammarParserShouldEvaluateCorrectly(string input, int querySyntaxCount, int binaryOperandCount)
+    {
+        // Arrange
+        var grammar = Grammar.Instance();
+        var testQueryBuilder = new TestQueryBuilder<TestClass>();
 
-    // }
+        // Act
+        var tokens = grammar._lexer.Tokenize(input);
+        var expression = grammar._parser.Parse(tokens, testQueryBuilder);
+
+        // Assert
+        Assert.True(testQueryBuilder.CountEvaluateBinary == binaryOperandCount);
+        Assert.True(testQueryBuilder.CountEvaluateQuerySyntax == querySyntaxCount);
+    }
 }

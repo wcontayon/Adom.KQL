@@ -66,7 +66,7 @@ internal partial class Grammar
                     // We evaluate the all the expression and the operator
                     // in the concerned stack, until we find the '(' operator
                     var stopEvaluate = false;
-                    while (operators.Count > 0 || stopEvaluate)
+                    while (operators.Count > 0 && !stopEvaluate)
                     {
                         var binaryOperator = operators.Pop();
                         if (binaryOperator.Kind != TokenKind.OpenParenthesis)
@@ -99,7 +99,7 @@ internal partial class Grammar
                 // On each operators peek/pop(), we pop() two expressions to evaluate
                 var binaryOperator = operators.Peek();
 
-                if (expressions.Count > 2 && (binaryOperator.Kind == TokenKind.AndOperand || binaryOperator.Kind == TokenKind.OrOperand))
+                if (expressions.Count >= 2 && (binaryOperator.Kind == TokenKind.AndOperand || binaryOperator.Kind == TokenKind.OrOperand))
                 {
                     operators.Pop();
                     var rightExpression = expressions.Pop();
