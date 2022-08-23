@@ -49,6 +49,16 @@ internal class QuerySyntax : Syntax, ISyntaxNode
             if (token.Kind.IsOperator())
             {
                 _operator = token;
+                _operatorKind = _operator.Kind switch
+                {
+                    TokenKind.EqualOperator => OperatorKind.Equals,
+                    TokenKind.NotEqualOperator => OperatorKind.NotEquals,
+                    TokenKind.GreatherThanOperator => OperatorKind.GreaterThan,
+                    TokenKind.GreaterThanOrEqualOperator => OperatorKind.GreaterThanOrEqual,
+                    TokenKind.LessThanOperator => OperatorKind.LessThan,
+                    TokenKind.LessThanOrEqualOperator => OperatorKind.LessThanOrEqual,
+                    _ => OperatorKind.Equals
+                };
                 continue;
             }
         }

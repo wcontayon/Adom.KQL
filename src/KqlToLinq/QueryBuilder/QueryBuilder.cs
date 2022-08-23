@@ -25,6 +25,11 @@ internal class QueryBuilder : IQueryExpressionBuilder
         _properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
     }
 
+    /// <summary>
+    /// Gets the <see cref="ParameterExpression" /> used to build the <see cref="Expression" /> tree.
+    /// </summary>
+    public ParameterExpression Parameter => _paramExpression;
+
     /// <inheritdoc />
     public Expression EvaluateBinaryOperand(QueryOperandKind operandKind, Expression left, Expression right)
     {
