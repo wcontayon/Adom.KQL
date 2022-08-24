@@ -48,6 +48,10 @@ public class KqlEngine
 
     private static Expression<Func<T, bool>> ParseQuery<T>(string input, string paramName = "p")
     {
+        if (string.IsNullOrEmpty(input))
+        {
+            throw new ArgumentNullException(nameof(input));
+        }
         // Init the <see cref="Grammar" />
         EnsureGrammarInstance();
 

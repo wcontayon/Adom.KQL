@@ -1,10 +1,4 @@
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-using KqlToLinq;
-using KqlToLinq.QueryBuilder;
-
-namespace KqlToLinq.Extensions;
+﻿namespace KqlToLinq.Collections;
 
 public static class KqlEngineExtensions
 {
@@ -56,5 +50,38 @@ public static class KqlEngineExtensions
 
         var expression = KqlEngine.Parse<T>(kqlQuery);
         return source.FirstOrDefault(expression.Compile());
+    }
+
+    /// <summary>
+    /// Determines whether any element of a sequence satisfies the KQL query.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"><see cref="IEnumerable{T}"/></param>
+    /// <param name="kqlQuery">KQL query input</param>
+    /// <returns><code>true</code if the source sequence is not empty and at least one of its elements passes the test in the specified KQL query; otherwise, <code>false</code>.
+    /// </returns>
+    public static bool Any<T>(this IEnumerable<T> source, string kqlQuery)
+    {
+        ArgumentNullException.ThrowIfNull(kqlQuery, nameof(kqlQuery));
+        ArgumentNullException.ThrowIfNull(source, nameof(source));
+
+        var expression = KqlEngine.Parse<T>(kqlQuery);
+        return source.Any(expression.Compile());
+    }
+
+    /// <summary>
+    /// Returns a number that represents how many elements in the specified sequence satisfy the KQL query.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="source"><see cref="IEnumerable{T}"/></param>
+    /// <param name="kqlQuery">KQL query input</param>
+    /// <returns>A number that represents how many elements in the sequence satisfy the condition in the KQL query</returns>
+    public static int Count<T>(this IEnumerable<T> source, string kqlQuery)
+    {
+        ArgumentNullException.ThrowIfNull(kqlQuery, nameof(kqlQuery));
+        ArgumentNullException.ThrowIfNull(source, nameof(source));
+
+        var expression = KqlEngine.Parse<T>(kqlQuery);
+        return source.Count(expression.Compile());
     }
 }

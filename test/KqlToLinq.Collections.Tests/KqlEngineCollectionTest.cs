@@ -7,13 +7,13 @@ using System.Linq.Expressions;
 using System.Globalization;
 using Xunit;
 
-namespace KqlToLinq.Tests;
+namespace KqlToLinq.Collections.Tests;
 
-public class KqlEngineTest 
+public class KqlEngineCollectionTest
 {
     private List<TestClass> _datas;
 
-    public KqlEngineTest()
+    public KqlEngineCollectionTest()
     {
         _datas = new Faker<TestClass>().Generate(20).ToList();
         _datas.Add(new TestClass()
@@ -63,28 +63,56 @@ public class KqlEngineTest
         IEnumerator IEnumerable.GetEnumerator() => GenerateQuery().GetEnumerator();
     }
 
-    [Trait("Category", "KqlEngine")]
-    [Theory(DisplayName = "Engine should process query")]
+    [Trait("Category", "KqlEngine.Collection")]
+    [Theory(DisplayName = "Where method should have same result that Linq Where")]
     [MemberData(nameof(QueryDataGenerator.GenerateQuery), MemberType = typeof(QueryDataGenerator))]
-    public void EngineShouldProcessCorrectlyKQlQuery(KqlStringExpression kql)
+    public void KqlQueryWhereMethodShouldHaveSameResult(KqlStringExpression kql)
     {
         // Act
-        var kqlResult = KqlEngine.ProcessQuery<TestClass>(_datas, kql.Query!);
+        var kqlResult = _datas.Where(kql.Query!);
         var linqResult = _datas.Where(kql.ExpressionQuery!.Compile());
 
         // Assert
         Assert.Equal(kqlResult, linqResult);
     }
 
-    [Trait("Category", "KqlEngine")]
-    [Fact(DisplayName = "Engine should raise Argument null exception")]
-    public void EngineShouldRaiseArgumentNullException()
+    [Trait("Category", "KqlEngine.Collection")]
+    [Theory(DisplayName = "Any method should have same result that Linq Any()")]
+    [MemberData(nameof(QueryDataGenerator.GenerateQuery), MemberType = typeof(QueryDataGenerator))]
+    public void KqlQueryAnyMethodShouldHaveSameResult(KqlStringExpression kql)
     {
+        // Act
+        var kqlResult = _datas.Any(kql.Query!);
+        var linqResult = _datas.Any(kql.ExpressionQuery!.Compile());
+
         // Assert
-        Assert.Throws<ArgumentNullException>(() => KqlEngine.ProcessQuery<TestClass>(null!, string.Empty));
-        Assert.Throws<ArgumentNullException>(() => KqlEngine.ProcessQuery<TestClass>(null!, null!));
-        Assert.Throws<ArgumentNullException>(() => KqlEngine.ProcessQuery<TestClass>(_datas, string.Empty));
-        Assert.Throws<ArgumentNullException>(() => KqlEngine.ProcessQuery<TestClass>(_datas, null!));
-        Assert.Throws<ArgumentNullException>(() => KqlEngine.ProcessQuery<TestClass>(_datas, ""));
+        Assert.Equal(kqlResult, linqResult);
+    }
+
+    [Trait("Category", "KqlEngine.Collection")]
+    [Theory(DisplayName = "Count method should have same result that Linq Count()")]
+    [MemberData(nameof(QueryDataGenerator.GenerateQuery), MemberType = typeof(QueryDataGenerator))]
+    public void KqlQueryCountMethodShouldHaveSameResult(KqlStringExpression kql)
+    {
+        // Act
+        var kqlResult = _datas.Count(kql.Query!);
+        var linqResult = _datas.Count(kql.ExpressionQuery!.Compile());
+
+        // Assert
+        Assert.Equal(kqlResult, linqResult);
+    }
+
+    [Trait("Category", "KqlEngine.Collection")]
+    [Fact(DisplayName = "First/FirstOrDefault method should have same result that Linq First/FirstOrDefault()")]
+    public void KqlQueryFirstMethodShouldHaveSameResult()
+    {
+        // Act
+        var kqlResult = _datas.First("StringField = 'value' and NumberField = 10");
+        var linqResult = _datas.First(t => t.StringField == "value" && t.NumberField == 10);
+        var kqlResultOrDefault = _datas.FirstOrDefault("StringField = 'value' and NumberField = 10");
+        var linqResultOrDefault = _datas.FirstOrDefault(t => t.StringField == "value" && t.NumberField == 10);
+        // Assert
+        Assert.Equal(kqlResult, linqResult);
+        Assert.Equal(kqlResultOrDefault, linqResultOrDefault);
     }
 }
