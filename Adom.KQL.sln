@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{0B75517D-536C-4AA6-ACFB-0F3C43FC860C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adom.KQL", "src\Adom.KQL\Adom.KQL.csproj", "{6479246A-4D7F-4B1E-8020-D2046B789ACC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adom.KQL.Collections", "src\Adom.KQL.Collections\Adom.KQL.Collections.csproj", "{3BA9E7A4-8293-49F5-BE78-0B9A86CC3A7D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{05BFF063-B2A3-41C8-A988-1D23DA31E812}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adom.KQL.Collections.Tests", "test\Adom.KQL.Collections.Tests\Adom.KQL.Collections.Tests.csproj", "{D38DFFCE-7426-4D14-B978-182E023F13B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adom.KQL.Tests", "test\Adom.KQL.Tests\Adom.KQL.Tests.csproj", "{50B1AC36-E98C-44ED-A436-5ED9611D7B64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6479246A-4D7F-4B1E-8020-D2046B789ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6479246A-4D7F-4B1E-8020-D2046B789ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6479246A-4D7F-4B1E-8020-D2046B789ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6479246A-4D7F-4B1E-8020-D2046B789ACC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BA9E7A4-8293-49F5-BE78-0B9A86CC3A7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BA9E7A4-8293-49F5-BE78-0B9A86CC3A7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BA9E7A4-8293-49F5-BE78-0B9A86CC3A7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BA9E7A4-8293-49F5-BE78-0B9A86CC3A7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D38DFFCE-7426-4D14-B978-182E023F13B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D38DFFCE-7426-4D14-B978-182E023F13B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D38DFFCE-7426-4D14-B978-182E023F13B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D38DFFCE-7426-4D14-B978-182E023F13B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50B1AC36-E98C-44ED-A436-5ED9611D7B64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50B1AC36-E98C-44ED-A436-5ED9611D7B64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50B1AC36-E98C-44ED-A436-5ED9611D7B64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50B1AC36-E98C-44ED-A436-5ED9611D7B64}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6479246A-4D7F-4B1E-8020-D2046B789ACC} = {0B75517D-536C-4AA6-ACFB-0F3C43FC860C}
+		{3BA9E7A4-8293-49F5-BE78-0B9A86CC3A7D} = {0B75517D-536C-4AA6-ACFB-0F3C43FC860C}
+		{D38DFFCE-7426-4D14-B978-182E023F13B5} = {05BFF063-B2A3-41C8-A988-1D23DA31E812}
+		{50B1AC36-E98C-44ED-A436-5ED9611D7B64} = {05BFF063-B2A3-41C8-A988-1D23DA31E812}
+	EndGlobalSection
+EndGlobal

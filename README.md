@@ -1,7 +1,7 @@
 <!-- # <img src="./assets/logo.png" alt="Icon" width="60" />  -->
 # KQL.NET
 
-[![CI](https://github.com/egbakou/reedsolomon/actions/workflows/ci.yml/badge.svg)](https://github.com/egbakou/reedsolomon/actions/workflows/ci.yml) [![NuGet](https://img.shields.io/nuget/v/ReedSolomon.NET.svg?label=NuGet)](https://www.nuget.org/packages/ReedSolomon.NET/)
+[![CI](https://github.com/wcontayon/Adom.KQL/blob/main/.github/workflows/dotnet-ci.yml)](https://github.com/wcontayon/Adom.KQL/blob/main/.github/workflows/dotnet-ci.yml) [![NuGet](https://img.shields.io/nuget/v/ReedSolomon.NET.svg?label=NuGet)](https://www.nuget.org/packages/ReedSolomon.NET/)
 
 
 KQL (Keywords Query Language) with LINQ methods in dotnet 
@@ -16,7 +16,7 @@ KQL (Keywords Query Language) with LINQ methods in dotnet
 We were asked in one of our project to build an free query syntax to build search over an collection of data `(IEnumerable, etc)`.
 After some research, we found that [**KQL (Keyword Query Language) syntax**](https://docs.microsoft.com/en-us/sharepoint/dev/general-development/keyword-query-language-kql-syntax-reference?WT.mc_id=DT-MVP-5003978) is best suited to our need.
 
-**`Adom.KQL`** transforms a **KQ** to a `Linq expression` to be used in an `IEnumerable`
+**`Adom.KQL`** transforms a **KQL** to a `Linq expression` to be used in an `IEnumerable`
 
 ## Installation
 

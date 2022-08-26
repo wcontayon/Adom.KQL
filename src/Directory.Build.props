@@ -1,0 +1,51 @@
+
+<Project>
+
+  <!-- Build options -->
+  <PropertyGroup>
+    <_ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true' or '$(GITHUB_ACTIONS)' == 'true' or '$(GITLAB_CI)' == 'true'">True</_ContinuousIntegrationBuild>
+
+    <!-- <LangVersion>9.0</LangVersion> -->
+    <TreatWarningsAsErrors Condition="'$(Configuration)' != 'Debug'">true</TreatWarningsAsErrors>
+    <Deterministic>true</Deterministic>
+    <LatestTargetFramework>net6.0</LatestTargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ValidateProjectTargets>true</ValidateProjectTargets>
+
+    <Features>strict</Features>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+
+    <IsPackable>False</IsPackable>
+  </PropertyGroup>
+
+  <!-- disable the nullable warnings when compiling for target that haven't annotation -->
+  <PropertyGroup Condition="'$(TargetFramework)' != '$(LatestTargetFramework)'">
+    <NoWarn>$(NoWarn);8600;8601;8602;8603;8604</NoWarn>
+  </PropertyGroup>
+
+  <!-- Package configuration -->
+  <PropertyGroup>
+    <_PackageReadmeFilePath Condition="Exists('$(MSBuildProjectDirectory)\readme.md')">$(MSBuildProjectDirectory)\readme.md</_PackageReadmeFilePath>
+
+    <Authors>Comlan William CONTAYON</Authors>
+    <Company>HADEM</Company>
+    <PackageProjectUrl>https://github.com/wcontayon/Adom.KQL/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/wcontayon/Adom.KQL.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <!-- <PackageIcon>icon.png</PackageIcon> -->
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+
+    <!-- https://github.com/NuGet/Home/issues/10791 -->
+    <!--<PackageReadmeFile Condition="$(_PackageReadmeFilePath) != ''">readme.md</PackageReadmeFile>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- <None Include="$(MSBuildThisFileDirectory)\icon.png" Pack="true" PackagePath="" Visible="false" /> -->
+    <None Include="$(MSBuildThisFileDirectory)\LICENSE.txt" Pack="true" PackagePath="" Visible="false" />
+    <None Include="$(_PackageReadmeFilePath)" Pack="true" PackagePath="" Visible="false" Condition="$(_PackageReadmeFilePath) != ''" />
+  </ItemGroup>
+
+</Project>
+

@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsPackable>True</IsPackable>
+    <PackageId>Adom.KQL.Collections</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
