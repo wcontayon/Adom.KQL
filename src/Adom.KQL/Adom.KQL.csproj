@@ -4,7 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsPackable>True</IsPackable>
+    <PackageId>Adom.KQL</PackageId>
+    <Version>1.0.0</Version>
   </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Adom.Framework" Version="1.2.1" />
