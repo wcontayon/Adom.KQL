@@ -1,4 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
+using System.Linq.Expressions;
 
 namespace Adom.KQL;
 

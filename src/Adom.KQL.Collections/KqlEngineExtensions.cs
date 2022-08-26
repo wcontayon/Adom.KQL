@@ -1,4 +1,6 @@
-﻿namespace Adom.KQL.Collections;
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
+namespace Adom.KQL.Collections;
 
 public static class KqlEngineExtensions
 {

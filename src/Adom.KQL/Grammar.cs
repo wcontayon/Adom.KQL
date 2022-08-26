@@ -1,4 +1,6 @@
-﻿using Adom.KQL.Syntax;
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
+using Adom.KQL.Syntax;
 using System.Text.RegularExpressions;
 using System.Runtime.CompilerServices;
 
@@ -51,10 +53,12 @@ internal partial class Grammar
         {
             lock (_lock)
             {
+#pragma warning disable CA1508 // Éviter le code conditionnel mort
                 if (_grammar == null)
                 {
                     _grammar = new Grammar();
                 }
+#pragma warning restore CA1508 // Éviter le code conditionnel mort
             }
         }
 

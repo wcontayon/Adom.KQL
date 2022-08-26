@@ -1,4 +1,6 @@
-﻿
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
+using System.Globalization;
 using System.Text;
 
 namespace Adom.KQL;
@@ -197,7 +199,7 @@ internal partial class Grammar
 
                         // Is it a bool const value
                         if ((word.Length == 1 && (word == "1" || word == "0")) ||
-                            (word.ToLower() == "true" || word.ToLower() == "false"))
+                            (word.ToUpperInvariant() == "true" || word.ToUpperInvariant() == "false"))
                         {
                             tokens.Enqueue(new Token(Syntax.TokenKind.BoolValue, word.AsSpan(), index), index);
 

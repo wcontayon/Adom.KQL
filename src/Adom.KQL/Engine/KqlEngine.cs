@@ -1,3 +1,4 @@
+// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
 
 using System.Linq.Expressions;
 
@@ -6,7 +7,7 @@ namespace Adom.KQL;
 /// <summary>
 /// Engine to process a kql query.
 /// </summary>
-public class KqlEngine 
+public static class KqlEngine 
 {
     [ThreadStatic]
     private static Grammar? _grammar;

@@ -1,4 +1,6 @@
-﻿using Adom.KQL.Syntax;
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
+using Adom.KQL.Syntax;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -10,7 +12,6 @@ namespace Adom.KQL.QueryBuilder;
 internal class QueryBuilder : IQueryExpressionBuilder
 {
     private readonly ParameterExpression _paramExpression;
-    private readonly Expression? _expression;
     private readonly PropertyInfo[] _properties;
 
     public QueryBuilder(Type type)
@@ -58,7 +59,7 @@ internal class QueryBuilder : IQueryExpressionBuilder
         {
             TokenKind.DateTimeValue => Expression.Constant(DateTime.ParseExact(syntax.RightToken.Text!, "yyyy-MM-dd", CultureInfo.InvariantCulture), typeof(DateTime)),
             TokenKind.BoolValue => Expression.Constant(bool.Parse(syntax.RightToken.Text!), typeof(bool)),
-            TokenKind.NumberValue => Expression.Constant(Convert.ChangeType(syntax.RightToken.Text!, property.PropertyType)),
+            TokenKind.NumberValue => Expression.Constant(Convert.ChangeType(syntax.RightToken.Text!, property.PropertyType, CultureInfo.InvariantCulture)),
             TokenKind.StringValue => Expression.Constant(syntax.RightToken?.Text!, typeof(string)),
             _ => Expression.Constant(syntax.RightToken?.Text!, typeof(string))
         };

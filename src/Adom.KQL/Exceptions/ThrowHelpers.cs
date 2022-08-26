@@ -1,9 +1,12 @@
-﻿using Adom.KQL.Exceptions;
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
+using Adom.KQL.Exceptions;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace Adom.KQL;
 
-internal class ThrowHelpers
+internal static class ThrowHelpers
 {
     [DoesNotReturn]
     internal static void OpenParenthesisNotClosedException(string token, int position) 
@@ -23,9 +26,9 @@ internal class ThrowHelpers
 
     [DoesNotReturn]
     internal static void UnknownFieldInQuery(string fieldName, string typeName)
-        => throw new UnknownFieldException(fieldName, typeName, string.Format(ExceptionMessages.UNKNOWN_FIELDNAME_IN_QUERY, fieldName, typeName));
+        => throw new UnknownFieldException(fieldName, typeName, string.Format(CultureInfo.InvariantCulture,ExceptionMessages.UNKNOWN_FIELDNAME_IN_QUERY, fieldName, typeName));
 
     [DoesNotReturn]
     internal static void UnknownOperator(string @operator)
-        => throw new UnknownOperatorException(@operator, string.Format(ExceptionMessages.UNKNOW_OPERATOR, @operator));
+        => throw new UnknownOperatorException(@operator, string.Format(CultureInfo.InvariantCulture, ExceptionMessages.UNKNOW_OPERATOR, @operator));
 }

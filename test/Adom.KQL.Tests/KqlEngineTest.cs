@@ -1,3 +1,5 @@
+// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
 using Bogus;
 using System;
 using System.Collections;

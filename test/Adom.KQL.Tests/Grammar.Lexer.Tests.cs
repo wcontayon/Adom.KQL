@@ -1,4 +1,6 @@
-﻿using Adom.KQL.Exceptions;
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
+using Adom.KQL.Exceptions;
 using System;
 using System.Collections;
 using System.Collections.Generic;

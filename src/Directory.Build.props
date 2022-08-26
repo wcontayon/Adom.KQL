@@ -40,6 +40,11 @@
     <!-- https://github.com/NuGet/Home/issues/10791 -->
     <!--<PackageReadmeFile Condition="$(_PackageReadmeFilePath) != ''">readme.md</PackageReadmeFile>-->
   </PropertyGroup>
+  <ItemGroup>
+      <AssemblyAttribute Include="System.CLSCompliantAttribute">
+          <_Parameter1>true</_Parameter1>
+      </AssemblyAttribute>
+  </ItemGroup>
 
   <ItemGroup>
     <!-- <None Include="$(MSBuildThisFileDirectory)\icon.png" Pack="true" PackagePath="" Visible="false" /> -->

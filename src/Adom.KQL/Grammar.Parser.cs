@@ -1,4 +1,6 @@
-﻿using Adom.KQL.Exceptions;
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
+using Adom.KQL.Exceptions;
 using Adom.KQL.QueryBuilder;
 using Adom.KQL.Syntax;
 using System.Diagnostics;
@@ -21,7 +23,9 @@ internal partial class Grammar
         /// </summary>
         /// <param name="tokens"></param>
         /// <returns><see cref="Expression"/> tree</returns>
+#pragma warning disable CA1822 // Marquer les membres comme étant static
         internal Expression Parse(PriorityQueue<Token, int> tokens, IQueryExpressionBuilder queryBuilder)
+#pragma warning restore CA1822 // Marquer les membres comme étant static
         {
             ArgumentNullException.ThrowIfNull(nameof(tokens));
 

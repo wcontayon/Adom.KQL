@@ -1,5 +1,4 @@
-﻿// Copyright © 2022 Adom.KQL / wcontayon
-// Copyright 2015, Backblaze, Inc.  All rights reserved.
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
 
 using System.Linq.Expressions;
 

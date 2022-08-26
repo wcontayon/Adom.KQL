@@ -1,4 +1,6 @@
-﻿using Adom.KQL.Syntax;
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
+using Adom.KQL.Syntax;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -46,4 +48,15 @@ public class Token : IEquatable<Token>
                                         other.Text == _text &&
                                         other.Position == _position &&
                                         other.WordLength == _wordLength;
+
+    public override bool Equals(object? obj)
+    {
+        if (obj == null) return false;
+        if (obj is Token token) return Equals(token);
+        return false;
+    }
+
+    public override int GetHashCode() => _text.GetHashCode(StringComparison.InvariantCulture) ^
+                                        _position.GetHashCode() ^
+                                        _wordLength.GetHashCode();
 }

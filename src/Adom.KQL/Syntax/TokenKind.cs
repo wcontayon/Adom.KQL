@@ -1,4 +1,5 @@
-﻿
+﻿// Copyright © 2022 Adom.KQL / wcontayon All rights reserved.
+
 namespace Adom.KQL.Syntax
 {
     /// <summary>
