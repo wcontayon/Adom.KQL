@@ -1,9 +1,7 @@
 <!-- # <img src="./assets/logo.png" alt="Icon" width="60" />  -->
 # KQL.NET
 
-[![CI](https://github.com/wcontayon/Adom.KQL/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/wcontayon/Adom.KQL/.github/workflows/dotnet-ci.yml) 
-
-[![NuGet](https://img.shields.io/nuget/v/ReedSolomon.NET.svg?label=NuGet)](https://www.nuget.org/packages/ReedSolomon.NET/)
+[![CI](https://github.com/wcontayon/Adom.KQL/actions/workflows/dotnet-ci.yml/badge.svg)](https://github.com/wcontayon/Adom.KQL/.github/workflows/dotnet-ci.yml)  [![NuGet](https://img.shields.io/nuget/v/ReedSolomon.NET.svg?label=NuGet)](https://www.nuget.org/packages/ReedSolomon.NET/)
 
 
 KQL (Keywords Query Language) with LINQ methods in dotnet 

@@ -1,0 +1,35 @@
+on:
+  workflow_dispatch:
+    inputs:
+      pkg_version:
+        description: 'release version'
+        required: true
+        default: '1.2.1-rc.1'
+
+name: Publish Release Adom.KQL
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
+      
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      
+      - name: Publish Adom.KQL
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.pkg_version }}
+        run: | 
+          dotnet build --configuration Release
+          dotnet pack src/**/*.csproj --output nuget-packages --configuration Release -p:Version=$RELEASE_VERSION
+          dotnet nuget push nuget-packages/Adom.KQL*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      
+  
+  oy2hyhf5hhwh7uwqqiua6wb47wqh5h4utmillvgm6rducq
