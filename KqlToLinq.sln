@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4B108133-325C-44BD-AA01-5CF1C1C63A5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KqlToLinq", "src\KqlToLinq\KqlToLinq.csproj", "{C770182B-A811-48AB-9109-5119CBD00FC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adom.KQL", "src\Adom.KQL\Adom.KQL.csproj", "{C770182B-A811-48AB-9109-5119CBD00FC6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D91C27E8-3463-40BD-866E-9272BB95000B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KqlToLinq.Tests", "test\KqlToLinq.Tests\KqlToLinq.Tests.csproj", "{26E82F8E-C4E9-4BB8-A4B3-4DC3F1BB4883}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adom.KQL.Tests", "test\Adom.KQL.Tests\Adom.KQL.Tests.csproj", "{26E82F8E-C4E9-4BB8-A4B3-4DC3F1BB4883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KqlToLinq.Collections", "src\KqlToLinq.Collections\KqlToLinq.Collections.csproj", "{C21F66AF-C064-400D-AEC1-16279199C7F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adom.KQL.Collections", "src\Adom.KQL.Collections\Adom.KQL.Collections.csproj", "{C21F66AF-C064-400D-AEC1-16279199C7F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KqlToLinq.Collections.Tests", "test\KqlToLinq.Collections.Tests\KqlToLinq.Collections.Tests.csproj", "{ACA50C75-C7EB-48CF-A98C-AFDADBA32D86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adom.KQL.Collections.Tests", "test\Adom.KQL.Collections.Tests\Adom.KQL.Collections.Tests.csproj", "{ACA50C75-C7EB-48CF-A98C-AFDADBA32D86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
