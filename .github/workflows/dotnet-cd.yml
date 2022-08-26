@@ -31,5 +31,3 @@ jobs:
           dotnet pack src/**/*.csproj --output nuget-packages --configuration Release -p:Version=$RELEASE_VERSION
           dotnet nuget push nuget-packages/Adom.KQL*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
       
-  
-  oy2hyhf5hhwh7uwqqiua6wb47wqh5h4utmillvgm6rducq
